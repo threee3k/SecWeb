@@ -1,0 +1,33 @@
+Introduction: 
+I2P is a great secure network, similar to Tor but much better, from the security and design to the community and the old school websites, and here, we will be hosting our site
+
+Dependencies: 
+- i2p  Download it from their site
+- any browser that supports proxy, I recommend firefox
+
+
+Installation:
+1 - Start I2P using WHEREYOUINSTALLED/i2p/
+  ./i2prouter console
+
+2 - Go in your browser settings and change the proxy to 127.0.0.1 with the port 4444
+
+3 - If you wish to host a simple website, just copy it's files to the eepsites/docroot/ directory
+
+4 - If you wish to host a WebApp
+        I will be using nyx (https://github.com/rls-moe/nyx)
+        Go on 127.0.0.1:7657/home 
+        Click on hidden service manager and you'll find an already created service (thank you i2p devs!!!!!!)
+        The port should be 7658 or around that number
+        Go on your WebApp's config (in this case /nyx/config/config.go) and change the port to the one we saw earlier
+        Start your webapp and I2P website 
+    
+5 - And Taadaaa!! It should be working with no issues, If you find any, make sure to report them to me 
+
+6 - If you want to host another simple site, just create another I2P hidden service in a DIFFRENT PORT, Note that you have to copy the site's file to eepsites/docroot
+
+
+Why this works ?:
+localhost:80/site 
+localhost = This will be our I2P service address
+:80 = Is the port used to serve the site (aka so other people can see it) We will change it to 7658 or 7657 or anything you want, When your webapp and I2P hidden service have the same port, I2P will automatically show your site

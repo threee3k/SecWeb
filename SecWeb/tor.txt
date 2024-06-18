@@ -1,0 +1,52 @@
+Introduction:
+Ever wanted to host a Web App (Any web server that requires ports and such, like an Imageboard or a video hsoting site) on Tor, but you kept getting either nginx, port, or Tor errors
+Follow these steps and your site will be ready in no time!
+
+Dependencies:
+- tor 
+- tor browser
+- onionshare (Only if you want to host multiple sites)
+- systemctl 
+- Go lang (only for this example)
+
+Installation:
+For this example, I will be using nyxchan https://github.com/rls-moe/nyx An amazing javascript-free imageboard that runs on GO
+1 - Install the Dependencies
+2 - Start your Tor service, Note that this is the main service, as you cannot host more than one site using It, that's why I added onionshare, But you can use Docker instead
+        "sudo systemctl start tor"
+        "sudo nano /etc/tor/torrc" Uncomment #HiddenServiceDir  and  #HiddenServicePort
+        "sudo systemctl restart tor"
+        "sudo cat /var/lib/tor/hidden_service/hostname"
+2 - Your Tor site is now up and exposed to the Tor network, Anyone can see it, But the problem is that It has nothing to serve !
+        You can either use nginx and deal with the trouble  orrrr
+        "git clone https://github.com/rls-moe/nyx"
+        "cd nyx"
+        "go get"
+        "sudo nano config/config.go" Edit the listen port to :80 instead of :8080
+        "cd .."
+        "sudo go run main.go"
+3 - Our Imageboard is up and running, most other web apps will require databases and such, but as long as you have the port set to 80, you'll have no issues!
+
+4 - Now we go visit our Tor site (check step 2) and Taadaa! It's up and running!
+
+5 - Now, let's say you want to have another simple site, Like an introduction point or such, Unfotunatly we cannot use systemctl tor anymore, and have to resort to onionshare
+
+6 - Open onionshare and select host website
+
+7 - Drag your simple website into the program and tick the first, third and fourth box
+
+8 - Now you got another Tor site, and you can have much more.
+
+9 - If you want to switch from site to site just use "a href" in html with the onion address of the other site
+
+
+Why does this work ?:
+localhost:80/yoursite
+localhost = we replace it with our onion address
+:80 = This is the port, Think of it as a hole in our firewall that allows connections, Now you can use any port but we don't want our users to be switching around ports for conviniency
+      So we'll use port 80, which is responsible for http requests and such, this allows Tor and our webapp to run on the same port allowing Tor to serve our webapp, like they're riding the same car
+
+/yoursite = This is what your site shows to the internet people, usually if you're using apache2 it'll be in /var/www/html/ 
+
+
+Note: Any databases or other stuff will work properly without any editing, as the user will just access the files like you normally do.
